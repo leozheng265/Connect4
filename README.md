@@ -1,4 +1,4 @@
-Connect 4 
+Connect 4 Game
 =================
 ## Introduction
 I created two versions of the connect 4 game. The first version is a simpler implementation. It asks the players to choose their moves by entering column numbers and displays the board as a 2-D array in the terminal. The second version is a more advanced version using pygame to visualize the board and user interaction.
