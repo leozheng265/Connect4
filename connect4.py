@@ -1,3 +1,4 @@
+from sre_parse import WHITESPACE
 import pygame
 import numpy as np
 import sys
@@ -13,6 +14,7 @@ ORANGE = (255, 128, 0)
 BLACK = (0, 0, 0)
 BLUE = (145, 60, 255)
 YELLOW = (255, 255, 0)
+WHITE = (255, 255, 255)
 
 
 def createBoard():
@@ -97,7 +99,7 @@ def isTerminal(board):
             if block.count(PLAYER2) == 4:
                 print("Player2 wins!!")
                 return PLAYER2
-    return 0
+    return -1
     
 
 def drawBoard(board):
@@ -159,11 +161,18 @@ while not end:
                     row = getNextRow(board, move)
                     dropPiece(board, row, move, player)
 
+                # check for terminal condition
+                if isTerminal(board) == 0:
+                    print("TIE")
+                    label = font.render("Tie!!!", 1, WHITE)
+                    screen.blit(label, (40, 10))
+                    end = True
                 if isTerminal(board) == 1:
                     label = font.render("Player 1 has won!!!", 1, ORANGE)
                     screen.blit(label, (40, 10))
                     end = True
 
+                # change player
                 player += 1
 
             else:
@@ -173,20 +182,29 @@ while not end:
                 if validLocation(board, move):
                     row = getNextRow(board, move)
                     dropPiece(board, row, move, player)
-
-
+                
+                # check for terminal condition
+                if isTerminal(board) == 0:
+                    print("TIE")
+                    label = font.render("Tie!!!", 1, WHITE)
+                    screen.blit(label, (40, 10))
+                    end = True
                 if isTerminal(board) == 2:
                     label = font.render("Player 2 has won!!!", 1, YELLOW)
                     screen.blit(label, (40, 10))
                     end = True
 
+                # change player
                 player -= 1
             
+            # print the board
             printBoard(board)
             drawBoard(board)
 
             turn += 1
             turn %= 2
+
+            
 
             if end:
                 pygame.time.wait(4000)
