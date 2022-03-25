@@ -17,14 +17,15 @@ def createBoard():
 
 
 def dropPiece(board, row, col, player):
+    print("row: ", row, "\ncol: ", col)
     board[row][col] = player
 
 def validLocation(board, col):
 
-    for i in range(0, ROWCOUNT - 1):
+    for i in range(0, ROWCOUNT):
         if board[i][col] == 0:
             return True
-
+    print("The move your choose is invalid!!")
     return False
 
 
@@ -38,30 +39,67 @@ def printBoard(board):
     print(np.flip(board, 0))
 
 def isTerminal(board):
-    pass
     # check if the board is full
-    #empty = 42
-    #for i in board:
-    #    if not i == 0:
-    #        count -= 1
-    #if(empty == 0):
-    #    print("This game is a tie!\n")
-    #    return True
+    empty = 42
+    for i in range(ROWCOUNT):
+        for j in range(COLUMNCOUNT):
+            if not board[i][j] == 0:
+                empty -= 1
+    if(empty == 0):
+        print("This game is a tie!\n")
+        return True
 
         
 
-    # check for horizontal terminal condition
-    #for r in range(0, ROWCOUNT):
-    #    rowArr = [i for i in list(board[r, :])]
-    #    for c in range(0, 4):
-    #        block = rowArr[c:c+4]
-    #        if block.count(1) == 4:
-    #            return True
-    #        if block.count(2) == 4:
-    #            return True
-    #        else:
-    #            return False
-    #
+    # check for horizontal terminal conditions
+    for r in range(ROWCOUNT):
+        rowArr = [i for i in list(board[r, :])]
+        for c in range(0, 4):
+            block = rowArr[c:c+4]
+            if block.count(1) == 4:
+                print("Player1 wins!!")
+                return True
+            if block.count(2) == 4:
+                print("Player2 wins!!")
+                return True
+
+    # check for vertical terminal conditions
+    for c in range(COLUMNCOUNT):
+        colArr = [i for i in list(board[:, c])]
+        for r in range(0, 3):
+            block = colArr[r:r+4]
+            if block.count(1) == 4:
+                print("Player1 wins!!")
+                return True
+            if block.count(2) == 4:
+                print("Player2 wins!!")
+                return True
+
+    # check for diagonal terminal conditions
+    for c in range(0, 4):
+        for r in range(0, 3):
+            block = [board[r + i][c + i] for i in range(4)]
+            if block.count(1) == 4:
+                print("Player1 wins!!")
+                return True
+            if block.count(2) == 4:
+                print("Player2 wins!!")
+                return True
+
+    for c in range(0, 4):
+        for r in range(0, 3):
+
+            block = [board[r + 3 - i][c + i] for i in range(4)]
+            if block.count(1) == 4:
+                print("Player1 wins!!")
+                return True
+            if block.count(2) == 4:
+                print("Player2 wins!!")
+                return True
+
+
+    return False
+    
 
     
 
@@ -93,6 +131,7 @@ while not end:
         if validLocation(board, move):
             row = getNextRow(board, move)
             dropPiece(board, row, move, player)
+            printBoard(board)
 
         end = isTerminal(board)
 
@@ -113,12 +152,12 @@ while not end:
         if validLocation(board, move):
             row = getNextRow(board, move)
             dropPiece(board, row, move, player)
+            printBoard(board)
 
         end = isTerminal(board)
 
         player -= 1
 
-    printBoard(board)
 
 
     turn += 1
