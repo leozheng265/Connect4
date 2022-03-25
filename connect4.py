@@ -1,33 +1,24 @@
 import numpy as np
 
-
-
 ROWCOUNT = 6
 COLUMNCOUNT = 7
-
-
 
 def createBoard():
     board = np.zeros((ROWCOUNT, COLUMNCOUNT))
     return board
-
-
 
 def dropPiece(board, row, col, player):
     print("row: ", row, "\ncol: ", col)
     board[row][col] = player
 
 def validLocation(board, col):
-
     for i in range(0, ROWCOUNT):
         if board[i][col] == 0:
             return True
     print("The move your choose is invalid!!")
     return False
 
-
 def getNextRow(board, col):
-    
     for i in range(0, ROWCOUNT + 1):
         if board[i][col] == 0:
             return i
@@ -45,9 +36,7 @@ def isTerminal(board):
     if(empty == 0):
         print("This game is a tie!\n")
         return True
-
-        
-
+    
     # check for horizontal terminal conditions
     for r in range(ROWCOUNT):
         rowArr = [i for i in list(board[r, :])]
@@ -96,31 +85,32 @@ def isTerminal(board):
 
 
     return False
-    
 
-    
-
-
+# main program
 print("Welcome to the Connect4 game\n")
 print("Type numbers from 1 to 7 to choose your move\n")
 print("You can exit the game by entering 0\n")
 
+# initialize the board and variables for the game
 board = createBoard()
 end = False
 turn = 1
 player = 1
 
 while not end:
+    # ask for player 1's move
     if turn == 1:
         move = int(input("Player 1 is choosing the move (1-7) "))
+        
+        # exit the game if player enters 0
         if move == 0:
             print(" \n")
-
             print("Exiting...\n")
             print("Bye")
-
             break
+            
         move -= 1
+        # if the player put in an invalid move, keep asking for the next move
         while move > COLUMNCOUNT - 1:
             print("Invalide Column Number\n")
             move = int(input("Please choose your move again (1-7) "))
@@ -133,15 +123,19 @@ while not end:
         end = isTerminal(board)
 
         player += 1
-
+    
+    # ask for player 2's move
     else:
         move = int(input("Player 2 is choosing the move (1-7) "))
+        # exit the game if player enters 0
         if move == 0:
             print(" \n")
             print("Exiting...\n")
             print("Bye")
             break
         move -= 1
+        
+        # if the player put in an invalid move, keep asking for the next move
         while move > COLUMNCOUNT - 1:
             print("Invalide Column Number\n")
             move = int(input("Please choose your move again (1-6) "))
